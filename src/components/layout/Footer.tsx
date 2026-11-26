@@ -1,11 +1,14 @@
 import wordmark from '../../assets/logos/mayfly-wordmark.webp';
-import { siteConfig } from '../../config/site.config';
+import { CONTACT_HREF, siteConfig } from '../../config/site.config';
 import { useSiteContent } from '../../i18n/useSiteContent';
 
 export function Footer() {
   const content = useSiteContent();
   const currentYear = new Date().getFullYear();
   const hasSocialLinks = siteConfig.social.length > 0;
+  const navLinks = siteConfig.features.contact
+    ? content.navLinks
+    : content.navLinks.filter((link) => link.href !== CONTACT_HREF);
 
   return (
     <footer className="section-surface border-top border-brand py-5">
@@ -18,7 +21,7 @@ export function Footer() {
 
           <nav className="col-6 col-lg-4" aria-label="Footer">
             <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
-              {content.navLinks.map((link) => (
+              {navLinks.map((link) => (
                 <li key={link.href}>
                   <a className="nav-link p-0 text-secondary-brand" href={link.href}>
                     {link.label}

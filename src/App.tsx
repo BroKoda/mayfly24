@@ -8,6 +8,7 @@ import { Collaboration } from './components/sections/Collaboration';
 import { Values } from './components/sections/Values';
 import { Vision } from './components/sections/Vision';
 import { Contact } from './components/sections/Contact';
+import { siteConfig } from './config/site.config';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
         <Collaboration />
         <Values />
         <Vision />
-        <Contact />
+        {siteConfig.features.contact ? <Contact /> : null}
       </main>
       <Footer />
     </>

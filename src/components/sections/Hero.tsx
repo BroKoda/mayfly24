@@ -1,5 +1,6 @@
 import MayflyAnimation from '../ui/MayflyAnimation/MayflyAnimation';
 import { BrandButton } from '../ui/BrandButton';
+import { siteConfig } from '../../config/site.config';
 import { useSiteContent } from '../../i18n/useSiteContent';
 
 export function Hero() {
@@ -22,10 +23,12 @@ export function Hero() {
               {content.hero.supportingCopy}
             </p>
             <div className="d-flex flex-wrap gap-3">
-              <BrandButton
-                label={content.hero.primaryCta.label}
-                href={content.hero.primaryCta.href}
-              />
+              {siteConfig.features.contact ? (
+                <BrandButton
+                  label={content.hero.primaryCta.label}
+                  href={content.hero.primaryCta.href}
+                />
+              ) : null}
               <BrandButton
                 label={content.hero.secondaryCta.label}
                 href={content.hero.secondaryCta.href}

@@ -1,6 +1,6 @@
 import { SectionHeading } from '../ui/SectionHeading';
 import { BrandButton } from '../ui/BrandButton';
-import { SECTION_IDS } from '../../config/site.config';
+import { SECTION_IDS, siteConfig } from '../../config/site.config';
 import { useReveal } from '../../hooks/useReveal';
 import { useSiteContent } from '../../i18n/useSiteContent';
 
@@ -35,10 +35,12 @@ export function Community() {
               ))}
             </ul>
 
-            <BrandButton
-              label={content.community.cta.label}
-              href={content.community.cta.href}
-            />
+            {siteConfig.features.contact ? (
+              <BrandButton
+                label={content.community.cta.label}
+                href={content.community.cta.href}
+              />
+            ) : null}
           </div>
 
           <div className="col-12 col-lg-5">

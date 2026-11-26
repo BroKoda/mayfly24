@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import wordmark from '../../assets/logos/mayfly-wordmark.webp';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
+import { CONTACT_HREF, siteConfig } from '../../config/site.config';
 import { useSiteContent } from '../../i18n/useSiteContent';
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const content = useSiteContent();
+  const navLinks = siteConfig.features.contact
+    ? content.navLinks
+    : content.navLinks.filter((link) => link.href !== CONTACT_HREF);
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -39,7 +43,7 @@ export function Navbar() {
           className={`collapse navbar-collapse flex-grow-0 ${isMenuOpen ? 'show' : ''}`}
         >
           <ul className="navbar-nav align-items-lg-center gap-lg-4 gap-2 py-3 py-lg-0">
-            {content.navLinks.map((link) => (
+            {navLinks.map((link) => (
               <li className="nav-item" key={link.href}>
                 <a className="nav-link" href={link.href} onClick={closeMenu}>
                   {link.label}
@@ -49,26 +53,30 @@ export function Navbar() {
             <li className="nav-item d-lg-none pt-2">
               <LanguageSwitcher />
             </li>
-            <li className="nav-item d-lg-none pt-2">
-              <a
-                className="btn btn-primary rounded-pill px-4 py-2 w-100 text-center"
-                href={content.navCta.href}
-                onClick={closeMenu}
-              >
-                {content.navCta.label}
-              </a>
-            </li>
+            {siteConfig.features.contact ? (
+              <li className="nav-item d-lg-none pt-2">
+                <a
+                  className="btn btn-primary rounded-pill px-4 py-2 w-100 text-center"
+                  href={content.navCta.href}
+                  onClick={closeMenu}
+                >
+                  {content.navCta.label}
+                </a>
+              </li>
+            ) : null}
           </ul>
         </div>
 
         <div className="d-none d-lg-flex align-items-center gap-3">
           <LanguageSwitcher />
-          <a
-            className="btn btn-primary rounded-pill px-4 py-2"
-            href={content.navCta.href}
-          >
-            {content.navCta.label}
-          </a>
+          {siteConfig.features.contact ? (
+            <a
+              className="btn btn-primary rounded-pill px-4 py-2"
+              href={content.navCta.href}
+            >
+              {content.navCta.label}
+            </a>
+          ) : null}
         </div>
       </nav>
     </header>
