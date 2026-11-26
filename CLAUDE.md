@@ -390,6 +390,6 @@ captures everything built before that point in one commit. Since then, the conve
 _what_ (git history and `CHANGELOG.md` are meant to tell a consistent story — don't let them
 diverge).
 
-No remote is configured yet. When one is added: **before every `git push`**, update
-`CLAUDE.md`/`CHANGELOG.md` per the instruction at the top of this file, and commit those doc
-updates as part of (or immediately before) the push.
+**Remote**: `git@github.com:BroKoda/mayfly24.git` (SSH), default branch `main`. Before every
+`git push`, update `CLAUDE.md`/`CHANGELOG.md` per the instruction at the top of this file, and
+commit those doc updates as part of (or immediately before) the push.

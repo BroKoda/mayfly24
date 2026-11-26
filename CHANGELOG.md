@@ -10,6 +10,15 @@ running `git push`**, so the remote history is self-documenting the moment it's 
 
 ---
 
+## 2026-11-26 — Connected remote, pushed to GitHub
+
+- Added remote `origin` → `git@github.com:BroKoda/mayfly24.git` (SSH; verified auth and that
+  the remote repo was empty before pushing). Renamed the local default branch `master` → `main`
+  to match current GitHub convention before the first push (repo had no other branches/history
+  to disturb).
+- This is the first push — everything from the baseline snapshot (`202fc69`) onward goes up
+  together.
+
 ## 2026-11-26 — Consolidate SETUP docs into CLAUDE.md + CHANGELOG.md
 
 - Deleted `SETUP.md`, `SETUP-ANIMATIONS.md`, `SETUP-LAYERING.md` (the three original build
