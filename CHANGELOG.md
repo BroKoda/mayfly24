@@ -10,6 +10,16 @@ running `git push`**, so the remote history is self-documenting the moment it's 
 
 ---
 
+## 2026-11-26 — Workflow change: stop auto-committing
+
+- Every change up to this point had been committed immediately after implementation (see every
+  prior entry below). The user asked for that to stop — they want to see and review the diff
+  themselves before anything is committed, since auto-committing meant they weren't seeing file
+  diffs at all.
+- New standing rule, recorded in `CLAUDE.md` §12: implement, run the quality gates, leave the
+  change as an uncommitted working-tree diff, and say so. Only commit (or push) when explicitly
+  asked to, each time — a prior approval doesn't carry forward to later changes.
+
 ## 2026-11-26 — Namespaced localStorage key for language; added a reusable storage utility
 
 - Investigated before building anything: `i18next-browser-languagedetector` was already

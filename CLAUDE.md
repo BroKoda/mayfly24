@@ -432,13 +432,22 @@ claiming visual confirmation you don't have.
 
 ## 12. Git workflow
 
+**Do not commit automatically after implementing a change or feature.** (2026-11-26 — explicit
+standing instruction, previously the default behavior and the user asked for it to stop.) Make
+the change, run the quality gates (§11), leave the working tree as uncommitted changes, and say
+so — the user wants to see the diff and review it themselves before anything is committed. Only
+commit when the user explicitly asks you to (a specific request, or something unambiguous like
+"commit this"). The same applies to `git push`: never push without an explicit, current request
+for that push — an earlier approval to commit/push does not carry forward to later changes.
+
 Git was **not** initialized from the start of this project — it was introduced mid-project
 (2026-11-26) specifically because the user wanted a "come back to this exact state" safety net
 before a risky-feeling change. `202fc69` ("Baseline snapshot before background color change")
-captures everything built before that point in one commit. Since then, the convention has been
-**one logical change per commit**, with a descriptive message explaining the _why_, not just the
-_what_ (git history and `CHANGELOG.md` are meant to tell a consistent story — don't let them
-diverge).
+captures everything built before that point in one commit. Before the no-auto-commit rule above
+was introduced, the convention had been **one logical change per commit**, with a descriptive
+message explaining the _why_, not just the _what_ — keep following that same granularity and
+message style on whatever the user asks you to commit, so git history and `CHANGELOG.md` keep
+telling a consistent story.
 
 **Remote**: `git@github.com:BroKoda/mayfly24.git` (SSH), default branch `main`. Before every
 `git push`, update `CLAUDE.md`/`CHANGELOG.md` per the instruction at the top of this file, and
