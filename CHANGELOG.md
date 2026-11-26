@@ -10,6 +10,34 @@ running `git push`**, so the remote history is self-documenting the moment it's 
 
 ---
 
+## 2026-11-26 — GitHub Pages deployment: diagnosed, then built gh-pages-prod + Actions workflow
+
+- User shared the project at `https://brokoda.github.io/mayfly24/` to show progress (explicitly
+  temporary, not meant to invite contributors yet) and hit a "disallowed MIME type" console
+  error. Diagnosed by directly fetching the live URL rather than guessing from the error alone:
+  GitHub Pages was serving `main`'s raw, unbuilt `index.html` (repo was set to "Deploy from a
+  branch: main", which just publishes whatever's committed — it never runs `npm run build`).
+  That file's `<script type="module" src="/src/main.tsx">` requests raw TSX source, which 404s
+  (both because no build was ever published, and separately because the path is missing the
+  `/mayfly24/` subpath prefix the site actually needs — confirmed independently by checking that
+  the favicon also 404'd at the domain root). The 404 response is HTML; browsers require a JS
+  MIME type for `<script type="module">`, hence the error.
+- Added `.github/workflows/deploy-gh-pages.yml` (manual-only — `workflow_dispatch`, or a merged
+  PR into `gh-pages-prod`; never triggers on a plain push to `main`) that builds with
+  `DEPLOY_BASE_PATH=/mayfly24/` and publishes `dist/` to a new `gh-pages-prod` branch via
+  `peaceiris/actions-gh-pages` (a GitHub Action, no new npm dependency). Deliberately not using
+  `force_orphan`, so `gh-pages-prod` keeps shared history with `main` and a PR between them
+  stays mergeable through GitHub's normal UI across repeated deploys.
+- Added `base: process.env.DEPLOY_BASE_PATH || '/'` to `vite.config.ts` — verified locally both
+  ways (built with the env var set: every asset/favicon reference came out `/mayfly24/`-prefixed;
+  built without it: identical to before). Local dev and any future build for a real custom
+  domain at the root are unaffected.
+- Still needs two manual, one-time steps from the repo owner (not something done from an
+  assistant session): (1) run the workflow once via `workflow_dispatch` to create
+  `gh-pages-prod` for the first time, since a PR-based trigger isn't possible until the branch
+  exists; (2) in GitHub repo Settings → Pages, change the source from "Deploy from a branch:
+  main" to "Deploy from a branch: gh-pages-prod".
+
 ## 2026-11-26 — Workflow change: stop auto-committing
 
 - Every change up to this point had been committed immediately after implementation (see every

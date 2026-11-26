@@ -1,0 +1,50 @@
+name: Deploy to GitHub Pages (gh-pages-prod)
+
+# Manual-only — this never runs on a plain push to main. Trigger it either by:
+#   1. Running it directly: Actions tab -> this workflow -> "Run workflow"
+#      (or `gh workflow run deploy-gh-pages.yml`), or
+#   2. Opening a pull request from main into gh-pages-prod and merging it once ready.
+#
+# Either way it builds fresh from the triggering commit and overwrites gh-pages-prod with the
+# result — a PR into gh-pages-prod is only a trigger signal, not the actual publish content
+# (that branch holds built dist/ output, not source, so its own diff isn't meaningful here).
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [closed]
+    branches:
+      - gh-pages-prod
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for GitHub Pages
+        run: npm run build
+        env:
+          DEPLOY_BASE_PATH: /mayfly24/
+
+      - name: Publish to gh-pages-prod
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages-prod

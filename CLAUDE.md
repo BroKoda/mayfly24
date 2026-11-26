@@ -112,6 +112,7 @@ is superseded; i18next is correctly part of the stack now.
 ## 3. Directory structure
 
 ```
+.github/workflows/         deploy-gh-pages.yml — see §13
 branding/                  Source brand assets (logo PNGs, Brand Model Canvas PDF) — reference only
 public/                    favicon*.png, robots.txt
 src/
@@ -452,3 +453,59 @@ telling a consistent story.
 **Remote**: `git@github.com:BroKoda/mayfly24.git` (SSH), default branch `main`. Before every
 `git push`, update `CLAUDE.md`/`CHANGELOG.md` per the instruction at the top of this file, and
 commit those doc updates as part of (or immediately before) the push.
+
+---
+
+## 13. GitHub Pages deployment
+
+The site is shared at `https://brokoda.github.io/mayfly24/` — explicitly described as a
+**temporary** way to show progress, not an invitation for other developers yet, and expected to
+become obsolete once a real domain is in place. Keep that framing: don't build this out further
+than it needs to be for "show the current state to a few people."
+
+**How it's wired, and why**: GitHub Pages is a static file host — it does not run `npm run
+build` for you. `main` never gets deployed directly; a separate branch, **`gh-pages-prod`**,
+holds the _built_ `dist/` output, and GitHub Pages' repo setting (Settings → Pages → Build and
+deployment → Source → "Deploy from a branch") points at that branch, not `main`. This is a
+deliberate choice over GitHub's native Actions-based Pages deployment (`actions/deploy-pages`),
+specifically so there's an inspectable branch rather than an opaque deployment environment, and
+so publishing is a deliberate, separate step from pushing to `main` — pushing to `main` never
+triggers a deploy by itself.
+
+- **`.github/workflows/deploy-gh-pages.yml`** — triggers only on `workflow_dispatch` (manually
+  run from the Actions tab, or `gh workflow run deploy-gh-pages.yml`) or on a pull request into
+  `gh-pages-prod` being merged. Either way: checks out the triggering commit, `npm ci && npm run
+build` with `DEPLOY_BASE_PATH=/mayfly24/` set, then publishes `dist/` to `gh-pages-prod` via
+  `peaceiris/actions-gh-pages` (a GitHub Action, not an npm dependency — nothing to add to
+  `package.json`). Deliberately **not** using `force_orphan` — `gh-pages-prod` keeps normal git
+  history (each deploy is a regular commit on top of the last) specifically so it stays
+  shared-history with `main` and a PR between them keeps working, rather than hitting GitHub's
+  "these branches have entirely different histories" wall that an orphan branch would cause
+  after the first deploy.
+- **`vite.config.ts`**: `base: process.env.DEPLOY_BASE_PATH || '/'`. GitHub Pages serves this
+  project from a subpath, not the domain root, so every built asset reference needs the
+  `/mayfly24/` prefix _only there_ — local dev and any future build for a custom domain at the
+  root are untouched (verified directly: built with the env var set, every asset/favicon
+  reference in `dist/index.html` came out prefixed; built without it, same as before).
+- A PR from `main` into `gh-pages-prod` will show a large, odd-looking diff (it's deleting all
+  the previous build's files and adding all of `main`'s source files) — **expected, not a
+  bug**. The workflow doesn't use the PR's merged content; it's purely a trigger signal, and the
+  workflow's own build-and-publish step overwrites whatever that merge produced with a fresh
+  `dist/` build immediately after.
+
+**Root cause of the original "disallowed MIME type" error** (for context/history, not a live
+bug): GitHub Pages was serving the raw, unbuilt `index.html` straight from `main` — its
+`<script type="module" src="/src/main.tsx">` requests `.tsx` source at the domain root, which
+doesn't exist there (Pages had no `gh-pages-prod`/build step yet, and the path was also missing
+the `/mayfly24/` prefix). The server's 404 response is HTML; browsers strictly require a
+JavaScript MIME type for `<script type="module">`, so it refused to execute the "script" and
+reported a MIME type mismatch. Confirmed by directly fetching the live URL and inspecting what
+was actually returned, rather than guessing from the error message alone.
+
+**Manual one-time setup still needed** (repo-owner action, not something done from here):
+
+1. Trigger the workflow once via `workflow_dispatch` to create `gh-pages-prod` for the first
+   time (`peaceiris/actions-gh-pages` creates the branch if it doesn't exist yet) — a PR-based
+   trigger isn't possible until the branch exists.
+2. In GitHub repo Settings → Pages → Build and deployment → Source, change it from "Deploy from
+   a branch: `main`" to "Deploy from a branch: `gh-pages-prod`" (root).
