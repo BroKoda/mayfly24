@@ -10,6 +10,26 @@ running `git push`**, so the remote history is self-documenting the moment it's 
 
 ---
 
+## 2026-11-26 — Added Hungarian translation; language switcher now visible
+
+- New `src/i18n/locales/hu/translation.json` — a full Hungarian translation of every string in
+  the `en` resource (nav, hero, all section copy, footer). Registered in `src/i18n/index.ts`'s
+  `resources` object and added to `SUPPORTED_LANGUAGES` in `src/i18n/languages.ts` as
+  `{ code: 'hu', label: 'Magyar' }`.
+- Where the English copy was itself adapted from the Brand Model Canvas, the Hungarian
+  translation uses that original phrasing rather than re-translating the English back: the
+  eight value names (Bizalom, Precizitás, Igényesség, Folyamatos fejlődés, Átláthatóság,
+  Kölcsönös tisztelet, Felelősség, Következetesség), the brand key message / Vision closing
+  statement ("Mutassuk meg, hogy ezt így is lehet."), and a few technical focus-area terms the
+  canvas itself kept in English (`data governance`, `fine-tuning`, `Model Context Protocol`).
+- Kept `"status": "current"` / `"status": "evolving"` on the activities pillars untranslated —
+  verified by eye (not caught by the type system, see `CLAUDE.md` §4) since these are literal
+  values `ActivityCard.tsx` branches on, not display text.
+- No component changes were needed to surface this: `LanguageSwitcher` was already wired into
+  `Navbar` (desktop + mobile) and was simply rendering nothing while `SUPPORTED_LANGUAGES` had
+  only one entry — adding Hungarian is what turned it on, exactly as designed back when i18next
+  was first set up.
+
 ## 2026-11-26 — Connected remote, pushed to GitHub
 
 - Added remote `origin` → `git@github.com:BroKoda/mayfly24.git` (SSH; verified auth and that

@@ -102,9 +102,10 @@ page. Don't add features outside what's asked.
 **One resolved tension worth knowing about**: the original brief said "do not introduce a full
 internationalisation dependency unless necessary" and "do not show a language switcher until
 translations exist." The user later explicitly asked for i18next, which is now installed and
-fully wired (§4). The "don't show a switcher prematurely" rule is still honored — `LanguageSwitcher`
-renders nothing while only one language exists — but the "avoid the dependency" caution is
-superseded; i18next is correctly part of the stack now.
+fully wired (§4), and for a Hungarian translation, which is what made the switcher start
+rendering (two languages now exist). The "don't show a switcher prematurely" rule did its job in
+the meantime — it was invisible while only `en` existed — but the "avoid the dependency" caution
+is superseded; i18next is correctly part of the stack now.
 
 ---
 
@@ -154,24 +155,37 @@ Copy lives in `src/i18n/locales/<lang>/translation.json`, typed end-to-end via `
 which returns the _entire_ typed resource bundle for the active language — most content is
 arrays of objects (card lists, value lists), not flat strings, so per-key `t('key')` calls
 weren't the right fit; this hook pattern was a deliberate choice over idiomatic i18next usage.
+**Caveat**: the hook gets there via `i18n.getResourceBundle(...) as SiteContent` — a type
+assertion, not a structural check, so a locale JSON file that's missing a field or has a typo'd
+literal (e.g. a `"status"` value, see below) will **not** be caught by `tsc`. Eyeball a new
+locale file against `SiteContent` and the `en` version when adding one.
 
 - `src/i18n/index.ts` initializes `i18next` + `react-i18next` + `i18next-browser-languagedetector`
   (detection order: `localStorage` → `navigator`, fallback `en`), exporting `i18nReady` — a
   promise `main.tsx` awaits before the first render, so content is never read before resources
   are loaded.
 - `src/i18n/languages.ts` — `SUPPORTED_LANGUAGES` only lists languages with a **complete**
-  translation. Today: `[{ code: 'en', label: 'English' }]`.
+  translation. Today: `en` (English) and `hu` (Hungarian, label `Magyar`).
 - `LanguageSwitcher` (`components/ui/`) renders a `<select>` calling `i18n.changeLanguage()`,
-  but renders **nothing** while `SUPPORTED_LANGUAGES.length < 2`. It's wired into `Navbar`
-  already (desktop + mobile) — currently invisible, not because it's broken, but because there's
-  only one language.
+  and renders nothing while `SUPPORTED_LANGUAGES.length < 2` — now that there are two, it's
+  visible in `Navbar` (desktop + mobile), no component change was needed to turn it on.
 
 **Adding a new language**: add `src/i18n/locales/<code>/translation.json` (same shape as the
 `en` one / `SiteContent`), import it into the `resources` object in `src/i18n/index.ts`, add
-`{ code, label }` to `SUPPORTED_LANGUAGES`. No layout/section component needs to change — adding
-that second `SUPPORTED_LANGUAGES` entry is also what makes `LanguageSwitcher` start rendering.
-Hungarian and Serbian are the two languages Mayfly24 actually communicates in besides English
-(per the brand materials) — likely the next ones to add.
+`{ code, label }` to `SUPPORTED_LANGUAGES`. No layout/section component needs to change.
+Serbian is the one language Mayfly24 communicates in (per the brand materials) that isn't
+covered yet — the likely next one to add.
+
+**Hungarian translation notes** (`src/i18n/locales/hu/translation.json`): where the English copy
+was itself an adaptation of phrasing from the Brand Model Canvas (the eight value names, the
+brand key message/Vision closing statement "Mutassuk meg, hogy ezt így is lehet.", a few
+technical focus-area terms the canvas itself kept in English — `data governance`, `fine-tuning`,
+`Model Context Protocol`), the Hungarian translation uses that original authentic phrasing
+rather than re-translating the English back into Hungarian. `"status"` on each activities pillar
+(`"current"` / `"evolving"`) is a literal TypeScript union value consumed by `ActivityCard.tsx`
+logic, **not display text** — it must stay exactly `current`/`evolving` in every locale file;
+this isn't caught by the type system (see the `as SiteContent` caveat above), so check it by eye
+when adding a locale.
 
 **Nav/CTA `href` values** (e.g. `"#about"`) are literal strings in the JSON, matching
 `SECTION_IDS` in `site.config.ts` — they're structural, not translated text, so if you ever

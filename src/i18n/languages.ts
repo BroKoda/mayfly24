@@ -11,6 +11,7 @@ export interface SupportedLanguage {
  */
 export const SUPPORTED_LANGUAGES: readonly SupportedLanguage[] = [
   { code: 'en', label: 'English' },
+  { code: 'hu', label: 'Magyar' },
 ];
 
 export const DEFAULT_LANGUAGE = 'en';

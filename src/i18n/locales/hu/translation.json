@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "title": "Mayfly24 — Emberek. AI. Valódi hatás.",
+    "description": "A Mayfly24 összeköti az embereket, a gyakorlati AI-tudást és a szakmai együttműködést, hogy erősebb közösségeket építsen és valódi lehetőségeket teremtsen."
+  },
+  "brandName": "Mayfly24",
+  "navLinks": [
+    { "label": "Rólunk", "href": "#about" },
+    { "label": "Mit csinálunk", "href": "#what-we-do" },
+    { "label": "Közösség", "href": "#community" },
+    { "label": "Együttműködés", "href": "#collaboration" },
+    { "label": "Értékeink", "href": "#values" },
+    { "label": "Kapcsolat", "href": "#contact" }
+  ],
+  "navCta": { "label": "Lépj kapcsolatba", "href": "#contact" },
+  "hero": {
+    "eyebrow": "Mayfly24",
+    "headlineLines": ["Emberek.", "AI.", "Valódi hatás."],
+    "supportingCopy": "Összekapcsoljuk az embereket, a tudást és a technológiát, hogy valódi megoldásokat, erősebb szakmai közösségeket és tartós értéket teremtsünk.",
+    "primaryCta": { "label": "Építsük együtt a jövőt", "href": "#contact" },
+    "secondaryCta": { "label": "Fedezd fel a Mayfly24-et", "href": "#about" }
+  },
+  "about": {
+    "sectionLabel": "Kik vagyunk",
+    "headline": "Több, mint technológia.",
+    "intro": "A Mayfly24 olyan embereket hoz össze, akik hisznek abban, hogy a technológia akkor a legértékesebb, ha valódi lehetőségeket teremt. Szakembereket kapcsolunk össze, gyakorlati tudást osztunk meg, és olyan kultúrát építünk, amelyben a bizalom, a minőség és a folyamatos fejlődés az első.",
+    "highlights": [
+      {
+        "title": "Valódi emberi kapcsolatok",
+        "description": "Oktatás- és közösségközpontú szervezet, amely valódi szakmai kapcsolatokra épül, nem csupán technológiára."
+      },
+      {
+        "title": "Gyakorlati technológiai tudás",
+        "description": "Kiemelt figyelmet fordítunk a mesterséges intelligenciára, amelyet gyakorlati oktatás és őszinte, kézzelfogható tudásmegosztás formájában adunk tovább."
+      },
+      {
+        "title": "Átlátható szakmai együttműködés",
+        "description": "Formálódó keretrendszer, amely önálló szakembereket kapcsol össze a világos kommunikáció és a reális vállalások mentén."
+      }
+    ]
+  },
+  "activities": {
+    "sectionLabel": "Mit csinálunk",
+    "headline": "Tudásból cselekvés.",
+    "pillars": [
+      {
+        "title": "Oktatás és közösség",
+        "description": "Gyakorlati oktatással, tudásmegosztással és valódi szakmai kapcsolatokkal tesszük elérhetőbbé az AI-t és az új technológiákat.",
+        "items": [
+          "Gyakorlati AI- és IT-képzések",
+          "AI Club",
+          "Business Breakfast",
+          "Konferenciák és szakmai események",
+          "Tudásmegosztás"
+        ],
+        "status": "current"
+      },
+      {
+        "title": "Üzlet és együttműködés",
+        "description": "Átlátható keretet építünk, amelyben önálló szakemberek és szervezetek kapcsolódhatnak, együttműködhetnek, és tudásukat valódi projektekké alakíthatják.",
+        "items": [
+          "Szakmai kapcsolatépítés",
+          "Projektalapú együttműködési lehetőségek",
+          "Átlátható projektkoordináció",
+          "Az AI felelős alkalmazása",
+          "Helyi és nemzetközi üzleti kapcsolatok"
+        ],
+        "status": "evolving"
+      }
+    ]
+  },
+  "community": {
+    "sectionLabel": "Közösségünk",
+    "headline": "Együtt jobb.",
+    "intro": "A Mayfly24 nem csak a technológiáról vagy az üzletről szól. Olyan közeg megteremtéséről, ahol a szakemberek egymásra találhatnak, tanulhatnak és együtt fejlődhetnek.",
+    "offerings": [
+      "Tanuljanak egymástól",
+      "Nyíltan osszák meg tapasztalataikat",
+      "Bátran kérdezzenek",
+      "Fejlesszék a tudásukat",
+      "Valódi szakmai kapcsolatokra találjanak",
+      "Közös kihívásokon dolgozzanak együtt",
+      "Egy támogató közösség részei legyenek"
+    ],
+    "initiatives": [
+      "AI Club",
+      "Business Breakfast",
+      "Oktatási programok",
+      "Konferenciák"
+    ],
+    "cta": { "label": "Csatlakozz a közösségünkhöz", "href": "#contact" }
+  },
+  "collaboration": {
+    "sectionLabel": "Dolgozz velünk",
+    "headline": "Valódi tudás. Valódi együttműködés. Valódi hatás.",
+    "supportingCopy": "Hiszünk abban, hogy a valódi innováció a kihívás megértésével, a megfelelő emberek összehozásával és a közös cél felé való haladással kezdődik.",
+    "principles": [
+      "A valódi problémák megértése a megoldás javaslata előtt",
+      "A technológia felelős használata",
+      "Átlátható kommunikáció",
+      "Magas szakmai mérce",
+      "Reális vállalások",
+      "Hosszú távú szakmai kapcsolatok"
+    ],
+    "focusAreas": [
+      "Mesterséges intelligencia és AI-ügynökök",
+      "Model Context Protocol (MCP)",
+      "Lokális és open-source AI",
+      "Adatbiztonság és data governance",
+      "Fine-tuning",
+      "Jó IT-gyakorlatok",
+      "A technológia tudatos, gyakorlati alkalmazása"
+    ],
+    "cta": { "label": "Dolgozzunk együtt", "href": "#contact" }
+  },
+  "values": {
+    "sectionLabel": "Ami hajt minket",
+    "headline": "Elvek, nem ígéretek.",
+    "values": [
+      {
+        "title": "Bizalom",
+        "description": "Kapcsolatainkat őszinteségre, megbízhatóságra és kölcsönös bizalomra építjük."
+      },
+      {
+        "title": "Precizitás",
+        "description": "Figyelünk azokra a részletekre, amelyek valódi különbséget jelentenek."
+      },
+      {
+        "title": "Igényesség",
+        "description": "Büszkék vagyunk a magas színvonalú munkánkra."
+      },
+      {
+        "title": "Folyamatos fejlődés",
+        "description": "Kíváncsiak maradunk, folyamatosan tanulunk, és nyitottak vagyunk a valódi fejlődésre."
+      },
+      {
+        "title": "Átláthatóság",
+        "description": "Nyíltan kommunikálunk a munkánkról, a döntéseinkről és a korlátainkról."
+      },
+      {
+        "title": "Kölcsönös tisztelet",
+        "description": "Értékeljük az embereket, a tudásukat, az idejüket és a hozzájárulásukat."
+      },
+      {
+        "title": "Felelősség",
+        "description": "Felelősséget vállalunk a vállalásainkért és a döntéseinkért."
+      },
+      {
+        "title": "Következetesség",
+        "description": "Hisszük, hogy tetteinknek tükrözniük kell az elveinket."
+      }
+    ]
+  },
+  "vision": {
+    "sectionLabel": "Előretekintve",
+    "headline": "Helyi gyökerek. Globális perspektíva.",
+    "ambitions": [
+      "Fenntartható szakmai közösség",
+      "Rendszeres oktatási lehetőségek",
+      "Erős tudásmegosztási kultúra",
+      "Átlátható szakmai együttműködés",
+      "Nemzetközi projektlehetőségek",
+      "Lehetőségek a feltörekvő tehetségek számára"
+    ],
+    "closingStatement": "Mutassuk meg, hogy ezt így is lehet."
+  },
+  "contact": {
+    "sectionLabel": "Lépj kapcsolatba",
+    "headline": "Építsünk együtt valami értékeset.",
+    "intro": "Vedd fel velünk a kapcsolatot, ha érdekel:",
+    "reasons": [
+      "Üzleti együttműködés",
+      "AI- és IT-oktatás",
+      "Szakmai kapcsolatépítés",
+      "Közösségi részvétel",
+      "Közös projektek"
+    ]
+  },
+  "footer": {
+    "brandStatement": "Emberek. AI. Valódi hatás.",
+    "copyrightHolder": "Mayfly24"
+  }
+}
