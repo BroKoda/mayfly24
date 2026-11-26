@@ -128,6 +128,8 @@ src/
   hooks/useReveal.ts        Shared-IntersectionObserver scroll-reveal hook
   i18n/                     i18next setup, SUPPORTED_LANGUAGES config, locale resource JSON,
                             useSiteContent() hook
+  lib/storage.ts            Namespaced localStorage wrapper — register new persisted keys here
+                            (see §4), not via ad hoc localStorage calls elsewhere
   styles/                   SCSS — see §5 for the exact file-by-file breakdown
   types/content.types.ts    SiteContent and all nested content interfaces
   App.tsx, main.tsx
@@ -163,7 +165,12 @@ locale file against `SiteContent` and the `en` version when adding one.
 - `src/i18n/index.ts` initializes `i18next` + `react-i18next` + `i18next-browser-languagedetector`
   (detection order: `localStorage` → `navigator`, fallback `en`), exporting `i18nReady` — a
   promise `main.tsx` awaits before the first render, so content is never read before resources
-  are loaded.
+  are loaded. The detector's `lookupLocalStorage` option is set to
+  `getStorageKey(STORAGE_KEYS.language)` (`src/lib/storage.ts`, see below) rather than left at
+  its default (`i18nextLng`) — persistence itself is still handled entirely by the
+  well-tested detector library (it already calls `cacheUserLanguage()` automatically on every
+  `i18n.changeLanguage()`, confirmed by reading its source — nothing custom was built to persist
+  the language), this just namespaces _which key_ it writes to.
 - `src/i18n/languages.ts` — `SUPPORTED_LANGUAGES` only lists languages with a **complete**
   translation. Today: `en` (English) and `hu` (Hungarian, label `Magyar`).
 - `LanguageSwitcher` (`components/ui/`) renders a compact segmented toggle — a `role="group"`
@@ -199,6 +206,27 @@ when adding a locale.
 `SECTION_IDS` in `site.config.ts` — they're structural, not translated text, so if you ever
 rename a `SECTION_IDS` value, update the literal hrefs in every locale file too (a known, small,
 accepted duplication — keeps the JSON resources plain data rather than requiring computed hrefs).
+
+### Local storage
+
+`src/lib/storage.ts` is the **only** place that should call `window.localStorage` directly —
+route any new persisted setting through it rather than reaching for `localStorage` ad hoc in a
+component. It's deliberately small:
+
+- `STORAGE_KEYS` — a registry object (currently just `{ language: 'language' }`); add new
+  settings here first, as a key, not as a scattered literal string.
+- `getStorageKey(key)` — returns the full, namespaced key (`"mayfly24:" + key`), for wiring a
+  registered key into something that needs the literal key name rather than going through the
+  getters/setters below (e.g. `i18next-browser-languagedetector`'s `lookupLocalStorage` option).
+- `getStoredValue` / `setStoredValue` / `removeStoredValue` — defensive (try/catch; private
+  browsing, a full quota, or `localStorage` being disabled all fail silently) typed get/set/remove
+  for everything else. No persisted setting should ever be required for the page to function.
+
+Language persistence specifically still flows entirely through
+`i18next-browser-languagedetector` (it already listens for language changes and writes to its
+configured cache automatically — verified by reading the library's source, not assumed); the
+`language` key above only tells it _which_ localStorage key to use, not a reimplementation of
+its read/write logic.
 
 ---
 

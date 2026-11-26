@@ -10,6 +10,25 @@ running `git push`**, so the remote history is self-documenting the moment it's 
 
 ---
 
+## 2026-11-26 — Namespaced localStorage key for language; added a reusable storage utility
+
+- Investigated before building anything: `i18next-browser-languagedetector` was already
+  configured (`caches: ['localStorage']`, set up when i18next was first wired in) and already
+  persists the selected language to `localStorage` on every `i18n.changeLanguage()` call — the
+  core ask ("keep the selected language in local storage") was already working, just under the
+  library's generic default key `i18nextLng`. Verified this directly by reading both the
+  `i18next-browser-languagedetector` and `i18next` package source rather than assuming.
+- Added `src/lib/storage.ts`: a small namespaced wrapper (`mayfly24:` prefix) with a
+  `STORAGE_KEYS` registry, `getStorageKey()`, and defensive (try/catch) `getStoredValue`/
+  `setStoredValue`/`removeStoredValue`. This is the scalability piece explicitly asked for — a
+  single place future persisted settings register a key, instead of ad hoc `localStorage` calls
+  scattered around components.
+- Pointed the detector's `lookupLocalStorage` option at `getStorageKey(STORAGE_KEYS.language)`
+  instead of leaving it at the default — so it now reads as this app's own namespaced setting.
+  The detector itself still does the actual reading/writing/event-listening; nothing was
+  reimplemented.
+- No new dependencies.
+
 ## 2026-11-26 — Redesigned LanguageSwitcher as a segmented toggle
 
 - Replaced the native `<select>` with a compact button-group toggle (`role="group"`, one
