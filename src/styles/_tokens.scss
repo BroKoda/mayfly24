@@ -1,0 +1,159 @@
+@use 'sass:color';
+
+// Brand palette — single source of truth for Mayfly24 colors.
+$color-midnight-forest: #182522;
+$color-still-water: #344b50;
+$color-evening-sky: #788f9b;
+$color-mayfly-bronze: #8b654a;
+$color-muted-gold: #bfa06c;
+$color-twilight-sand: #e5dcd0;
+
+$palette: (
+  'midnight-forest': $color-midnight-forest,
+  'still-water': $color-still-water,
+  'evening-sky': $color-evening-sky,
+  'mayfly-bronze': $color-mayfly-bronze,
+  'muted-gold': $color-muted-gold,
+  'twilight-sand': $color-twilight-sand,
+);
+
+// A step above $semantic-colors' "surface" (section-level) for cards and content boxes
+// that need to visually sit above their section — see "surface hierarchy" below.
+$color-surface-raised: #2a3e3e;
+
+// $color-text-secondary lightened just enough to clear 4.5:1 contrast against
+// $color-surface-raised and $color-still-water (the "featured" surface) — the original
+// tone only clears ~3.3:1 and ~2.7:1 there. See `.surface-raised` / `.surface-featured`
+// in layering.scss, which redeclare `--color-text-secondary` locally to this value.
+$color-text-secondary-elevated: color.adjust($color-evening-sky, $lightness: 18%);
+
+$semantic-colors: (
+  'background': $color-midnight-forest,
+  'surface': #203029,
+  'surface-raised': $color-surface-raised,
+  'text-primary': $color-twilight-sand,
+  'text-secondary': $color-evening-sky,
+  'text-secondary-elevated': $color-text-secondary-elevated,
+  'accent': $color-muted-gold,
+  'border': rgba($color-twilight-sand, 0.16),
+  'button-primary': $color-muted-gold,
+  'button-primary-text': $color-midnight-forest,
+);
+
+// Semantic surface-level aliases (surface hierarchy: base < section < raised < featured <
+// light). Mostly aliases onto the tokens above — only $color-surface-raised is genuinely
+// new — so there is exactly one definition of each color.
+$surfaces: (
+  'surface-base': var(--color-background),
+  'surface-section': var(--color-surface),
+  'surface-raised': var(--color-surface-raised),
+  'surface-featured': var(--color-still-water),
+  'surface-light': var(--color-twilight-sand),
+);
+
+// Low-opacity borders and highlights for elevated surfaces, all derived from Twilight Sand.
+// 'surface-border-emphasis' is an alias for the existing --color-border (already this exact
+// value) rather than a duplicate definition.
+$surface-edges: (
+  'surface-border-subtle': rgba($color-twilight-sand, 0.06),
+  'surface-border-default': rgba($color-twilight-sand, 0.1),
+  'surface-border-emphasis': var(--color-border),
+  'surface-highlight': rgba($color-twilight-sand, 0.04),
+  'surface-highlight-strong': rgba($color-twilight-sand, 0.08),
+);
+
+// Layered, soft shadows — a small contact shadow plus a wider ambient one, rather than a
+// single harsh drop shadow. Suggests light falling from above, never a glow.
+$shadows: (
+  'shadow-none': none,
+  'shadow-sm': (
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    0 3px 8px rgba(0, 0, 0, 0.12),
+  ),
+  'shadow-md': (
+    0 2px 4px rgba(0, 0, 0, 0.14),
+    0 8px 20px rgba(0, 0, 0, 0.2),
+  ),
+  'shadow-lg': (
+    0 4px 8px rgba(0, 0, 0, 0.16),
+    0 16px 36px rgba(0, 0, 0, 0.24),
+  ),
+  'shadow-inset': inset 0 1px 0 rgba($color-twilight-sand, 0.05),
+);
+
+$font-heading:
+  'Manrope',
+  'Segoe UI',
+  system-ui,
+  -apple-system,
+  sans-serif;
+$font-body:
+  'Inter',
+  'Segoe UI',
+  system-ui,
+  -apple-system,
+  sans-serif;
+
+$content-max-width: 1320px;
+$section-padding-block: clamp(3.5rem, 7vw, 7rem);
+$nav-height: 76px;
+
+// Motion — centralised so no component hardcodes a duration, easing curve or distance.
+$motion: (
+  'duration-fast': 150ms,
+  'duration-normal': 250ms,
+  'duration-slow': 400ms,
+  'duration-reveal': 600ms,
+  'ease-default': cubic-bezier(0.4, 0, 0.2, 1),
+  'ease-out': cubic-bezier(0.22, 1, 0.36, 1),
+  'distance-xs': 4px,
+  'distance-sm': 8px,
+  'distance-md': 16px,
+  'distance-lg': 24px,
+  'stagger': 80ms,
+  'stagger-cap': 300ms,
+  'hover-scale': 1.025,
+  'active-scale': 0.98,
+);
+
+/// Comma-separated "r, g, b" triplet for a color, for Bootstrap's `--bs-*-rgb` variables.
+@function rgb-triplet($color) {
+  @return (
+    color.channel($color, 'red', $space: rgb),
+    color.channel($color, 'green', $space: rgb),
+    color.channel($color, 'blue', $space: rgb)
+  );
+}
+
+@mixin heading-font {
+  font-family: var(--font-heading);
+}
+
+/// Staggers a container's direct children by setting `--stagger-delay` on each, capped so a
+/// long list doesn't drag the entrance out. Consumers read it as `transition-delay` or
+/// `animation-delay` — see `.reveal-group` and `.hero-reveal` in animations.scss.
+@mixin stagger-children($max: 8) {
+  @for $i from 1 through $max {
+    > :nth-child(#{$i}) {
+      --stagger-delay: min(
+        calc(#{$i - 1} * var(--motion-stagger)),
+        var(--motion-stagger-cap)
+      );
+    }
+  }
+}
+
+/// A small circular or diamond marker used throughout bulleted content lists.
+@mixin marker($shape: circle, $size: 6px, $color: var(--color-accent)) {
+  display: inline-block;
+  flex-shrink: 0;
+  width: $size;
+  height: $size;
+  background-color: $color;
+
+  @if $shape == circle {
+    border-radius: 50%;
+  } @else if $shape == diamond {
+    transform: rotate(45deg);
+  }
+}

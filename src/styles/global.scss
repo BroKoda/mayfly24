@@ -1,0 +1,195 @@
+@use 'tokens';
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-height);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-midnight-forest);
+}
+
+a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 2000;
+  padding: 0.65rem 1.25rem;
+  background-color: var(--color-accent);
+  color: var(--color-midnight-forest);
+  font-weight: 600;
+  border-radius: 0.25rem;
+  transition: top 0.2s ease;
+
+  &:focus {
+    top: 1rem;
+  }
+}
+
+.container-brand {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+}
+
+.section {
+  padding-block: var(--section-padding-block);
+}
+
+.section-surface {
+  background-color: var(--color-surface);
+}
+
+.section-label {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.75rem;
+}
+
+.section-headline {
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 1.25rem;
+}
+
+.text-secondary-brand {
+  color: var(--color-text-secondary);
+}
+
+.text-measure {
+  max-width: 62ch;
+}
+
+.border-brand {
+  border-color: var(--color-border) !important;
+}
+
+.divider {
+  height: 1px;
+  background-color: var(--color-border);
+  border: none;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+
+  &--evolving {
+    color: var(--color-accent);
+    border-color: rgba(var(--bs-primary-rgb), 0.4);
+  }
+}
+
+.dot-accent {
+  @include tokens.marker($shape: circle, $size: 6px, $color: var(--color-accent));
+}
+
+.marker-diamond {
+  @include tokens.marker(
+    $shape: diamond,
+    $size: 10px,
+    $color: var(--color-mayfly-bronze)
+  );
+}
+
+// Headline and brand-font treatments shared across sections, replacing one-off inline styles.
+.font-heading {
+  @include tokens.heading-font;
+}
+
+.value-index {
+  @include tokens.heading-font;
+  color: var(--color-mayfly-bronze);
+}
+
+.hero-headline {
+  @include tokens.heading-font;
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.hero-wing {
+  width: 100%;
+  max-width: 420px;
+}
+
+.vision-ambitions {
+  max-width: 760px;
+}
+
+.vision-statement {
+  @include tokens.heading-font;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.vision-mark {
+  opacity: 0.85;
+}
+
+.site-header {
+  background-color: #{rgba(tokens.$color-midnight-forest, 0.96)};
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-sm);
+}

@@ -1,0 +1,223 @@
+@use 'tokens';
+
+// Subtle, premium motion: load-time entrances for above-the-fold content, scroll-triggered
+// reveals for everything else, and restrained hover/press feedback on interactive elements.
+// Durations, easing curves, distances and stagger values all come from the `--motion-*`
+// custom properties in variables.scss (sourced from `$motion` in _tokens.scss) — no
+// component or stylesheet hardcodes its own timing.
+
+// `visibility` is included (not just opacity) so an element mid-entrance is also removed
+// from the tab order — a keyboard user tabbing immediately on load can never focus a
+// control before it is actually visible. Browsers hold a keyframe's non-interpolable
+// `visibility` value until the step it's declared on, so this flips to visible exactly
+// when the "to" state applies.
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(calc(-1 * var(--motion-distance-sm)));
+  }
+
+  to {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(var(--motion-distance-md));
+  }
+
+  to {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+// --- Initial page-load entrance ---------------------------------------------------------
+
+.site-header {
+  animation: fade-in-down var(--motion-duration-slow) var(--motion-ease-out) both;
+}
+
+// Direct children of the hero text column (section label, headline, copy, CTA row) enter in
+// a short staggered sequence. The hero visual (MayflyAnimation) is deliberately not part of
+// this: it plays its own ~2.25s assembly animation from the moment it mounts, and gating it
+// behind this fade-in-up would hide most of that animation's progress behind
+// `visibility: hidden` before ever revealing it.
+.hero-reveal {
+  @include tokens.stagger-children(4);
+
+  > * {
+    animation: fade-in-up var(--motion-duration-reveal) var(--motion-ease-out) both;
+    animation-delay: var(--stagger-delay, 0ms);
+  }
+}
+
+// --- Scroll-triggered reveals ------------------------------------------------------------
+// `useReveal()` adds `.is-visible` the first time an element meaningfully enters the
+// viewport, via one shared IntersectionObserver (see src/hooks/useReveal.ts).
+
+.reveal {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(var(--motion-distance-md));
+  transition:
+    opacity var(--motion-duration-reveal) var(--motion-ease-out),
+    transform var(--motion-duration-reveal) var(--motion-ease-out),
+    visibility 0s linear 0s;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+.reveal--left {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(calc(-1 * var(--motion-distance-lg)));
+  transition:
+    opacity var(--motion-duration-reveal) var(--motion-ease-out),
+    transform var(--motion-duration-reveal) var(--motion-ease-out),
+    visibility 0s linear 0s;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+}
+
+.reveal--right {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(var(--motion-distance-lg));
+  transition:
+    opacity var(--motion-duration-reveal) var(--motion-ease-out),
+    transform var(--motion-duration-reveal) var(--motion-ease-out),
+    visibility 0s linear 0s;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+  }
+}
+
+// A revealed container whose direct children fade/rise in with a small stagger between
+// them — used for card grids and bulleted lists. The stagger only applies at tablet width
+// and up, where these groups actually lay out side by side; stacked mobile lists reveal
+// together.
+.reveal-group {
+  > * {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(var(--motion-distance-md));
+    transition:
+      opacity var(--motion-duration-reveal) var(--motion-ease-out),
+      transform var(--motion-duration-reveal) var(--motion-ease-out),
+      visibility 0s linear 0s;
+  }
+
+  &.is-visible > * {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  @media (min-width: 768px) {
+    @include tokens.stagger-children(8);
+
+    > * {
+      transition-delay: var(--stagger-delay, 0ms);
+    }
+  }
+}
+
+// --- Navigation micro-interactions --------------------------------------------------------
+
+.navbar .nav-link {
+  position: relative;
+  transition: color var(--motion-duration-normal) var(--motion-ease-default);
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.1rem;
+    height: 1px;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--motion-duration-normal) var(--motion-ease-out);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
+  }
+}
+
+// --- Button micro-interactions -------------------------------------------------------------
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    transform: translateY(calc(-1 * var(--motion-distance-xs)));
+    // A subtle lift to match the existing hover movement, not a card-style elevation.
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+.btn {
+  transition:
+    background-color var(--motion-duration-normal) var(--motion-ease-default),
+    border-color var(--motion-duration-normal) var(--motion-ease-default),
+    color var(--motion-duration-normal) var(--motion-ease-default),
+    transform var(--motion-duration-fast) var(--motion-ease-out),
+    box-shadow var(--motion-duration-normal) var(--motion-ease-out);
+
+  &:active {
+    transform: scale(var(--motion-active-scale));
+  }
+}
+
+// --- Reduced motion --------------------------------------------------------------------
+// Content is never gated on JS or on an animation completing — this just makes sure nothing
+// here plays a visible transition when the visitor has asked for less motion.
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .hero-reveal > * {
+    animation: none;
+  }
+
+  .reveal,
+  .reveal--left,
+  .reveal--right,
+  .reveal-group > * {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+  }
+
+  .navbar .nav-link::after {
+    transition: none;
+  }
+
+  .btn {
+    transition: none;
+
+    &:active {
+      transform: none;
+    }
+  }
+}

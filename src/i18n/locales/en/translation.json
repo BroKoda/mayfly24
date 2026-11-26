@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "title": "Mayfly24 — People. AI. Real Impact.",
+    "description": "Mayfly24 connects people, practical AI knowledge and professional collaboration to build stronger communities and create meaningful opportunities."
+  },
+  "brandName": "Mayfly24",
+  "navLinks": [
+    { "label": "About", "href": "#about" },
+    { "label": "What We Do", "href": "#what-we-do" },
+    { "label": "Community", "href": "#community" },
+    { "label": "Collaboration", "href": "#collaboration" },
+    { "label": "Our Values", "href": "#values" },
+    { "label": "Contact", "href": "#contact" }
+  ],
+  "navCta": { "label": "Get in touch", "href": "#contact" },
+  "hero": {
+    "eyebrow": "Mayfly24",
+    "headlineLines": ["People.", "AI.", "Real Impact."],
+    "supportingCopy": "We bring people, knowledge and technology together to create meaningful solutions, stronger professional communities and lasting value.",
+    "primaryCta": { "label": "Build the future together", "href": "#contact" },
+    "secondaryCta": { "label": "Discover Mayfly24", "href": "#about" }
+  },
+  "about": {
+    "sectionLabel": "Who we are",
+    "headline": "More than technology.",
+    "intro": "Mayfly24 brings together people who believe that technology is most valuable when it creates meaningful opportunities. We connect professionals, share practical knowledge and build a culture where trust, quality and continuous development come first.",
+    "highlights": [
+      {
+        "title": "Meaningful human connections",
+        "description": "An education- and community-driven organisation built on genuine professional relationships, not just technology."
+      },
+      {
+        "title": "Practical technological knowledge",
+        "description": "A strong focus on artificial intelligence, shared through practical education and honest, hands-on knowledge sharing."
+      },
+      {
+        "title": "Transparent professional collaboration",
+        "description": "An evolving framework connecting independent professionals around clear communication and realistic commitments."
+      }
+    ]
+  },
+  "activities": {
+    "sectionLabel": "What we do",
+    "headline": "Knowledge into action.",
+    "pillars": [
+      {
+        "title": "Education and community",
+        "description": "We make AI and emerging technologies more accessible through practical education, knowledge sharing and genuine professional relationships.",
+        "items": [
+          "Practical AI and IT training",
+          "AI Club",
+          "Business Breakfast",
+          "Conferences and professional events",
+          "Knowledge sharing"
+        ],
+        "status": "current"
+      },
+      {
+        "title": "Business and collaboration",
+        "description": "We are building a transparent framework where independent professionals and organisations can connect, collaborate and turn their knowledge into meaningful projects.",
+        "items": [
+          "Professional networking",
+          "Project collaboration opportunities",
+          "Transparent project coordination",
+          "Responsible application of AI",
+          "Local and international business relationships"
+        ],
+        "status": "evolving"
+      }
+    ]
+  },
+  "community": {
+    "sectionLabel": "Our community",
+    "headline": "Better together.",
+    "intro": "Mayfly24 is not only about technology or business. It is about creating an environment where professionals can belong, learn and grow together.",
+    "offerings": [
+      "Learn from each other",
+      "Share experiences openly",
+      "Ask questions without hesitation",
+      "Develop their skills",
+      "Find meaningful professional relationships",
+      "Collaborate on shared challenges",
+      "Belong to a supportive community"
+    ],
+    "initiatives": [
+      "AI Club",
+      "Business Breakfast",
+      "Educational programmes",
+      "Conferences"
+    ],
+    "cta": { "label": "Connect with our community", "href": "#contact" }
+  },
+  "collaboration": {
+    "sectionLabel": "Work with us",
+    "headline": "Real knowledge. Real collaboration. Real impact.",
+    "supportingCopy": "We believe meaningful innovation starts with understanding the challenge, bringing the right people together and working towards a shared goal.",
+    "principles": [
+      "Understanding real problems before proposing solutions",
+      "Using technology responsibly",
+      "Transparent communication",
+      "High professional standards",
+      "Realistic commitments",
+      "Long-term professional relationships"
+    ],
+    "focusAreas": [
+      "Artificial intelligence and AI agents",
+      "Model Context Protocol",
+      "Local and open-source AI",
+      "Data security and data governance",
+      "Fine-tuning",
+      "Modern IT practices",
+      "Practical technology adoption"
+    ],
+    "cta": { "label": "Let's work together", "href": "#contact" }
+  },
+  "values": {
+    "sectionLabel": "What drives us",
+    "headline": "Principles, not promises.",
+    "values": [
+      {
+        "title": "Trust",
+        "description": "We build relationships through honesty, reliability and mutual confidence."
+      },
+      {
+        "title": "Precision",
+        "description": "We pay attention to the details that make the difference."
+      },
+      {
+        "title": "Professional excellence",
+        "description": "We take pride in delivering high-quality work."
+      },
+      {
+        "title": "Continuous development",
+        "description": "We stay curious, learn continuously and embrace meaningful improvement."
+      },
+      {
+        "title": "Transparency",
+        "description": "We communicate openly about our work, decisions and limitations."
+      },
+      {
+        "title": "Mutual respect",
+        "description": "We value people, their knowledge, their time and their contributions."
+      },
+      {
+        "title": "Responsibility",
+        "description": "We take ownership of our commitments and decisions."
+      },
+      {
+        "title": "Consistency",
+        "description": "We believe our actions should reflect our principles."
+      }
+    ]
+  },
+  "vision": {
+    "sectionLabel": "Looking ahead",
+    "headline": "Local roots. Global perspective.",
+    "ambitions": [
+      "A sustainable professional community",
+      "Regular educational opportunities",
+      "A strong culture of knowledge sharing",
+      "Transparent professional collaboration",
+      "International project opportunities",
+      "Opportunities for emerging talent"
+    ],
+    "closingStatement": "Let's show there's a better way."
+  },
+  "contact": {
+    "sectionLabel": "Get in touch",
+    "headline": "Let's build something meaningful.",
+    "intro": "Reach out if you are interested in:",
+    "reasons": [
+      "Business collaboration",
+      "AI and IT education",
+      "Professional networking",
+      "Community participation",
+      "Shared projects"
+    ]
+  },
+  "footer": {
+    "brandStatement": "People. AI. Real Impact.",
+    "copyrightHolder": "Mayfly24"
+  }
+}

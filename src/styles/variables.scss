@@ -1,0 +1,36 @@
+@use 'tokens';
+
+// Expose every brand and semantic color as a runtime CSS custom property, generated from
+// the maps in _tokens.scss so each color is defined in exactly one place.
+:root {
+  @each $name, $value in tokens.$palette {
+    --color-#{$name}: #{$value};
+  }
+
+  @each $name, $value in tokens.$semantic-colors {
+    --color-#{$name}: #{$value};
+  }
+
+  --font-heading: #{tokens.$font-heading};
+  --font-body: #{tokens.$font-body};
+
+  --content-max-width: #{tokens.$content-max-width};
+  --section-padding-block: #{tokens.$section-padding-block};
+  --nav-height: #{tokens.$nav-height};
+
+  @each $name, $value in tokens.$motion {
+    --motion-#{$name}: #{$value};
+  }
+
+  @each $name, $value in tokens.$surfaces {
+    --#{$name}: #{$value};
+  }
+
+  @each $name, $value in tokens.$surface-edges {
+    --#{$name}: #{$value};
+  }
+
+  @each $name, $value in tokens.$shadows {
+    --#{$name}: #{$value};
+  }
+}

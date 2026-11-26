@@ -1,0 +1,82 @@
+@use 'tokens';
+
+// Visual depth: a surface hierarchy (base < section < raised < featured), a reusable
+// shadow system, and hover elevation for anything actually interactive. Reuses the
+// existing `--motion-*` tokens for timing — this is not a second animation system.
+//
+// Surface hierarchy in use on the site today:
+//   Level 0 (base)    — body background (--surface-base), unchanged.
+//   Level 1 (section) — .section-surface in global.scss (--surface-section), unchanged.
+//   Level 2 (raised)  — .surface-raised below: ActivityCard and the two panel asides
+//                        (Community initiatives, Collaboration focus areas).
+//   Level 3 (featured)— .surface-featured below. Nothing on the page today is a clearly
+//                        "more important" container than the Level 2 ones, and wrapping
+//                        existing unboxed content just to use this tier isn't appropriate
+//                        here, so it's defined and ready but not yet applied anywhere.
+
+// --- Level 2: elevated content surfaces --------------------------------------------------
+
+.surface-raised {
+  background-color: var(--surface-raised);
+  border: 1px solid var(--surface-border-default);
+  box-shadow: var(--shadow-md), var(--shadow-inset);
+
+  // The original secondary-text tone only clears ~3.3:1 against this surface (needs 4.5:1
+  // for AA) — redeclaring the custom property here fixes every consumer (card text,
+  // .status-badge) in one place instead of touching each utility class.
+  --color-text-secondary: var(--color-text-secondary-elevated);
+}
+
+// --- Level 3: featured surfaces -----------------------------------------------------------
+// Stronger shadow, more visible border, and a restrained lighting gradient — reserved for
+// content that is genuinely more important than an ordinary card (see note above).
+
+.surface-featured {
+  background: linear-gradient(145deg, var(--surface-featured), var(--surface-raised));
+  border: 1px solid var(--surface-border-emphasis);
+  box-shadow: var(--shadow-lg), var(--shadow-inset);
+  --color-text-secondary: var(--color-text-secondary-elevated);
+}
+
+// --- Standalone elevation utilities --------------------------------------------------------
+
+.elevation-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.elevation-md {
+  box-shadow: var(--shadow-md);
+}
+
+.elevation-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+// Reusable hover-elevation modifier for a *clickable* raised/featured surface — pair with
+// .surface-raised or .surface-featured on an interactive container. Not applied anywhere
+// today: none of the current cards are clickable, and animating a non-interactive card to
+// look clickable would be misleading. Kept available for when a clickable one exists.
+@media (hover: hover) and (pointer: fine) {
+  .elevation-hover {
+    transition:
+      transform var(--motion-duration-normal) var(--motion-ease-out),
+      box-shadow var(--motion-duration-normal) var(--motion-ease-out),
+      border-color var(--motion-duration-normal) var(--motion-ease-default);
+
+    &:hover {
+      transform: translateY(calc(-1 * var(--motion-distance-xs)));
+      border-color: var(--surface-border-emphasis);
+      box-shadow: var(--shadow-lg), var(--shadow-inset);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .elevation-hover {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}

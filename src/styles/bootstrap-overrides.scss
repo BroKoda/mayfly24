@@ -1,0 +1,75 @@
+@use 'sass:color';
+@use 'tokens';
+
+// Remap Bootstrap's design variables onto the Mayfly24 brand tokens instead of its default
+// blue theme. Hover/active shades are derived from the brand gold rather than hand-picked
+// hex values, so they stay in sync if the accent color ever changes.
+$button-hover: color.adjust(tokens.$color-muted-gold, $lightness: 10%);
+$button-active: color.adjust(tokens.$color-muted-gold, $lightness: -12%);
+
+:root {
+  --bs-body-bg: var(--color-background);
+  --bs-body-color: var(--color-text-primary);
+  --bs-body-font-family: var(--font-body);
+  --bs-heading-color: var(--color-text-primary);
+  --bs-border-color: var(--color-border);
+  --bs-link-color-rgb: #{tokens.rgb-triplet(tokens.$color-muted-gold)};
+  --bs-link-hover-color-rgb: #{tokens.rgb-triplet(tokens.$color-twilight-sand)};
+
+  --bs-primary: var(--color-accent);
+  --bs-primary-rgb: #{tokens.rgb-triplet(tokens.$color-muted-gold)};
+  --bs-secondary: var(--color-still-water);
+  --bs-secondary-rgb: #{tokens.rgb-triplet(tokens.$color-still-water)};
+
+  --bs-focus-ring-color: #{rgba(tokens.$color-muted-gold, 0.45)};
+}
+
+body {
+  background-color: var(--color-background);
+}
+
+.btn-primary {
+  --bs-btn-color: var(--color-button-primary-text);
+  --bs-btn-bg: var(--color-button-primary);
+  --bs-btn-border-color: var(--color-button-primary);
+  --bs-btn-hover-color: var(--color-button-primary-text);
+  --bs-btn-hover-bg: #{$button-hover};
+  --bs-btn-hover-border-color: #{$button-hover};
+  --bs-btn-active-color: var(--color-button-primary-text);
+  --bs-btn-active-bg: #{$button-active};
+  --bs-btn-active-border-color: #{$button-active};
+  --bs-btn-disabled-bg: var(--color-button-primary);
+  --bs-btn-disabled-border-color: var(--color-button-primary);
+  font-weight: 600;
+}
+
+.btn-outline-light {
+  --bs-btn-color: var(--color-text-primary);
+  --bs-btn-border-color: var(--color-border);
+  --bs-btn-hover-color: var(--color-midnight-forest);
+  --bs-btn-hover-bg: var(--color-twilight-sand);
+  --bs-btn-hover-border-color: var(--color-twilight-sand);
+  --bs-btn-active-color: var(--color-midnight-forest);
+  --bs-btn-active-bg: var(--color-twilight-sand);
+  --bs-btn-active-border-color: var(--color-twilight-sand);
+  font-weight: 600;
+}
+
+.navbar {
+  --bs-navbar-color: var(--color-text-primary);
+  --bs-navbar-hover-color: var(--color-accent);
+  --bs-navbar-active-color: var(--color-accent);
+  --bs-navbar-brand-color: var(--color-text-primary);
+  --bs-navbar-toggler-border-color: var(--color-border);
+
+  &-toggler:focus {
+    box-shadow: 0 0 0 0.2rem var(--bs-focus-ring-color);
+  }
+}
+
+.dropdown-menu,
+.offcanvas {
+  --bs-dropdown-bg: var(--color-surface);
+  --bs-dropdown-link-color: var(--color-text-primary);
+  --bs-dropdown-border-color: var(--color-border);
+}
