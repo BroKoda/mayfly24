@@ -10,6 +10,23 @@ running `git push`**, so the remote history is self-documenting the moment it's 
 
 ---
 
+## 2026-11-26 — Redesigned LanguageSwitcher as a segmented toggle
+
+- Replaced the native `<select>` with a compact button-group toggle (`role="group"`, one
+  `<button aria-pressed>` per `SUPPORTED_LANGUAGES` entry, visible label = short code (`EN`/
+  `HU`), `aria-label` = full language name so screen readers announce "English"/"Magyar" rather
+  than spelling out the letters). Still generalizes to 3+ languages if Serbian is added later —
+  not hardcoded to a binary toggle.
+- Styling follows the existing split convention: static shape/colors in `global.scss`
+  (`.language-switcher`, `.language-switcher__option`), hover/transition/reduced-motion in
+  `animations.scss` — mirrors how `.navbar .nav-link` is handled, not a new pattern.
+- Active option reuses the exact accent + button-text color pairing already used by the primary
+  CTA buttons, rather than introducing a new color decision. Container border reuses the plain
+  `--color-border` token (same one the navbar's own bottom border uses) rather than the
+  surface-system's `--surface-border-*` tokens, since this sits in the nav chrome, not on a
+  card surface.
+- No new dependencies; reused only existing design tokens.
+
 ## 2026-11-26 — Added Hungarian translation; language switcher now visible
 
 - New `src/i18n/locales/hu/translation.json` — a full Hungarian translation of every string in

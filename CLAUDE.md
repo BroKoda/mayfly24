@@ -166,9 +166,17 @@ locale file against `SiteContent` and the `en` version when adding one.
   are loaded.
 - `src/i18n/languages.ts` — `SUPPORTED_LANGUAGES` only lists languages with a **complete**
   translation. Today: `en` (English) and `hu` (Hungarian, label `Magyar`).
-- `LanguageSwitcher` (`components/ui/`) renders a `<select>` calling `i18n.changeLanguage()`,
-  and renders nothing while `SUPPORTED_LANGUAGES.length < 2` — now that there are two, it's
-  visible in `Navbar` (desktop + mobile), no component change was needed to turn it on.
+- `LanguageSwitcher` (`components/ui/`) renders a compact segmented toggle — a `role="group"`
+  of `<button>`s (one per `SUPPORTED_LANGUAGES` entry, `aria-pressed` on the active one,
+  `aria-label` set to the full language name since the visible label is just the short code,
+  e.g. `EN`/`HU`) — **not** a native `<select>`, so it can be styled precisely and read as a
+  deliberate control rather than browser chrome. Still generalizes to any number of languages,
+  not just two. Static shape/colors live in `global.scss` (`.language-switcher`,
+  `.language-switcher__option`); hover/transition/reduced-motion behavior lives in
+  `animations.scss` alongside the rest of the site's interactive motion (not co-located with the
+  static styles) — that split mirrors how `.navbar .nav-link` is handled. Renders nothing while
+  `SUPPORTED_LANGUAGES.length < 2` — now that there are two, it's visible in `Navbar` (desktop +
+  mobile); no component change was needed to turn it on when Hungarian was added.
 
 **Adding a new language**: add `src/i18n/locales/<code>/translation.json` (same shape as the
 `en` one / `SiteContent`), import it into the `resources` object in `src/i18n/index.ts`, add

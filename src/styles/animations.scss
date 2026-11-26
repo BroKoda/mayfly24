@@ -166,6 +166,20 @@
   }
 }
 
+// --- Language switcher micro-interactions ---------------------------------------------------
+
+@media (hover: hover) and (pointer: fine) {
+  .language-switcher__option:not(.is-active):hover {
+    color: var(--color-text-primary);
+  }
+}
+
+.language-switcher__option {
+  transition:
+    background-color var(--motion-duration-normal) var(--motion-ease-default),
+    color var(--motion-duration-normal) var(--motion-ease-default);
+}
+
 // --- Button micro-interactions -------------------------------------------------------------
 
 @media (hover: hover) and (pointer: fine) {
@@ -210,6 +224,10 @@
   }
 
   .navbar .nav-link::after {
+    transition: none;
+  }
+
+  .language-switcher__option {
     transition: none;
   }
 

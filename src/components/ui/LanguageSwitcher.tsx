@@ -3,25 +3,32 @@ import { SUPPORTED_LANGUAGES } from '../../i18n/languages';
 
 export function LanguageSwitcher() {
   const { i18n } = useTranslation();
+  const activeLanguage = i18n.resolvedLanguage ?? i18n.language;
 
   if (SUPPORTED_LANGUAGES.length < 2) {
     return null;
   }
 
   return (
-    <select
-      aria-label="Select language"
-      className="form-select form-select-sm w-auto"
-      value={i18n.resolvedLanguage ?? i18n.language}
-      onChange={(event) => {
-        void i18n.changeLanguage(event.target.value);
-      }}
-    >
-      {SUPPORTED_LANGUAGES.map((language) => (
-        <option key={language.code} value={language.code}>
-          {language.label}
-        </option>
-      ))}
-    </select>
+    <div className="language-switcher" role="group" aria-label="Language">
+      {SUPPORTED_LANGUAGES.map((language) => {
+        const isActive = activeLanguage === language.code;
+
+        return (
+          <button
+            key={language.code}
+            type="button"
+            className={`language-switcher__option ${isActive ? 'is-active' : ''}`.trim()}
+            aria-pressed={isActive}
+            aria-label={language.label}
+            onClick={() => {
+              void i18n.changeLanguage(language.code);
+            }}
+          >
+            {language.code.toUpperCase()}
+          </button>
+        );
+      })}
+    </div>
   );
 }
