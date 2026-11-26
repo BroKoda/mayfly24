@@ -1,5 +1,6 @@
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { CopyrightStrip } from './components/layout/CopyrightStrip';
 import { Hero } from './components/sections/Hero';
 import { About } from './components/sections/About';
 import { Activities } from './components/sections/Activities';
@@ -28,6 +29,7 @@ function App() {
         {siteConfig.features.contact ? <Contact /> : null}
       </main>
       <Footer />
+      <CopyrightStrip />
     </>
   );
 }

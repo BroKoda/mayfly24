@@ -4,7 +4,6 @@ import { useSiteContent } from '../../i18n/useSiteContent';
 
 export function Footer() {
   const content = useSiteContent();
-  const currentYear = new Date().getFullYear();
   const hasSocialLinks = siteConfig.social.length > 0;
   const navLinks = siteConfig.features.contact
     ? content.navLinks
@@ -54,12 +53,6 @@ export function Footer() {
             ) : null}
           </div>
         </div>
-
-        <hr className="divider my-4" />
-
-        <p className="text-secondary-brand small mb-0">
-          © {currentYear} {content.footer.copyrightHolder}. All rights reserved.
-        </p>
       </div>
     </footer>
   );

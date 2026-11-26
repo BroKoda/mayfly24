@@ -114,12 +114,6 @@ a {
   border-color: var(--color-border) !important;
 }
 
-.divider {
-  height: 1px;
-  background-color: var(--color-border);
-  border: none;
-}
-
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -192,4 +186,11 @@ a {
   background-color: #{rgba(tokens.$color-background, 0.96)};
   backdrop-filter: blur(6px);
   box-shadow: var(--shadow-sm);
+}
+
+// Full-width strip below the footer — reverts to the page's base background (rather than
+// the footer's --color-surface) so it reads as a distinct closing band, the same way
+// .site-header is a distinct band above the page content.
+.copyright-strip {
+  background-color: var(--color-background);
 }
