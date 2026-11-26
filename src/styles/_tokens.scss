@@ -17,6 +17,13 @@ $palette: (
   'twilight-sand': $color-twilight-sand,
 );
 
+// The page's base background. Deliberately a separate variable from
+// $color-midnight-forest, even though the two started out equal: $color-midnight-forest
+// still represents the brand swatch itself (used as a *text* color on gold/light surfaces
+// — button labels, ::selection, skip-link), while this is specifically "whatever the page
+// background is" and can move independently of that swatch.
+$color-background: #0f1c1c;
+
 // A step above $semantic-colors' "surface" (section-level) for cards and content boxes
 // that need to visually sit above their section — see "surface hierarchy" below.
 $color-surface-raised: #2a3e3e;
@@ -28,7 +35,7 @@ $color-surface-raised: #2a3e3e;
 $color-text-secondary-elevated: color.adjust($color-evening-sky, $lightness: 18%);
 
 $semantic-colors: (
-  'background': $color-midnight-forest,
+  'background': $color-background,
   'surface': #203029,
   'surface-raised': $color-surface-raised,
   'text-primary': $color-twilight-sand,
